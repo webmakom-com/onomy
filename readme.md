@@ -17,7 +17,7 @@ Your blockchain in development can be configured with `config.yml`. To learn mor
 ## Development Testnet Launch Docker Command
 
 ```
-docker run --name ochain-testnet -p 26656-26659:26656-26659 -p 6061:6061 -p 9091:9091 -p 1317:1317 onomy/ochain-testnet:latest ochaind start --rpc.laddr tcp://0.0.0.0:26657 --grpc.address 0.0.0.0:9091
+docker run --name onomy-devtestnet -p 26656-26659:26656-26659 -p 6061:6061 -p 9091:9091 -p 1317:1317 onomy/onomy-devtestnet:latest onomyd start --rpc.laddr tcp://0.0.0.0:26657 --grpc.address 0.0.0.0:9091
 ```
 
 ## Launch
@@ -39,7 +39,7 @@ starport network chain create [chainID] [sourceURL]
 To start an Onomy chain the following command may be used
 
 ```
-starport network chain create <your_chain_name> http://github.com/onomyprotocol/ochain
+starport network chain create <your_chain_name> http://github.com/onomyprotocol/onomy
 ```
 
 ### Joining as a validator
