@@ -19,10 +19,12 @@ FROM alpine:edge
 ENV onomy /onomy
 
 # Install ca-certificates
-RUN apk add --update ca-certificates
+RUN apk add --update ca-certificates apt-get
 
-RUN addgroup onomy && \
-    adduser -S -G onomy onomy -h "$onomy"
+RUN RUN apt-get update && \
+      apt-get -y install sudo
+
+RUN useradd -m onomy && echo "onomy:onomy" | chpasswd && adduser onomy sudo
 
 USER onomy
 
