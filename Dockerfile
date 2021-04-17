@@ -5,21 +5,13 @@
 FROM golang:1.16-alpine AS build-env
 
 # Set up dependencies
-ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev python3
+ENV PACKAGES bash curl make git libc-dev bash gcc linux-headers eudev-dev python3
 
-# Set working directory for the build
-WORKDIR /go/src/github.com/onomyprotocol/onomy
-
-# Add source files
-COPY . .
-RUN pwd
-RUN ls
-
-RUN go version
-
-# Install minimum necessary dependencies, build Cosmos SDK, remove packages
+# Install minimum necessary dependencies, install Starport, remove packages
 RUN apk add --no-cache $PACKAGES
-RUN make install
+RUN curl -v https://get.starport.network/starport | bash
+
+RUN ls /usr/local/bin
 
 # Final image
 FROM alpine:edge
@@ -37,7 +29,7 @@ USER onomy
 WORKDIR $onomy
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/bin/onomyd /usr/bin/onomyd
+COPY --from=build-env /go/starport /usr/bin/starport
 
 # Run onomyd by default, omit entrypoint to ease using container with onomycli
-CMD ["onomyd"]
+CMD ["starport"]
