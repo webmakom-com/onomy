@@ -33,5 +33,7 @@ WORKDIR $onomy
 # Copy over binaries from the build-env
 COPY --from=build-env /go/starport /usr/bin/starport
 
+RUN chmod +x /usr/bin/starport
+
 # Run onomyd by default, omit entrypoint to ease using container with onomycli
 CMD ["starport"]
