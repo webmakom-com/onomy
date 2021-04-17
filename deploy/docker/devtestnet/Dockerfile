@@ -21,19 +21,12 @@ ENV onomy /onomy
 # Install ca-certificates
 RUN apk add --update ca-certificates
 
-RUN apt-get update && \
-      apt-get -y install sudo
-
-RUN useradd -m onomy && echo "onomy:onomy" | chpasswd && adduser onomy sudo
-
-USER onomy
-
 WORKDIR $onomy
 
 # Copy over binaries from the build-env
 COPY --from=build-env /go/starport /usr/bin/starport
 
-RUN sudo chmod +x /usr/bin/starport
+RUN chmod +x /usr/bin/starport
 
 RUN starport network chain create $GITHUB_SHA http://github.com/onomyprotocol/onomy && \
     starport network chain join $GITHUB_SHA && /
