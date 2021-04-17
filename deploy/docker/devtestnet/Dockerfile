@@ -36,7 +36,7 @@ WORKDIR $onomy
 COPY --from=build-env /go/bin/onomyd /usr/bin/onomyd
 
 
-RUN onomyd init --chain-id=onomy-testnet validator1 && \
+RUN starport 
     onomyd keys add validator1 && \
     onomyd add-genesis-account $(onomyd keys show validator1 -a) 10000000nom && \
     onomyd gentx validator1 10000000nom --chain-id onomy-testnet && \
