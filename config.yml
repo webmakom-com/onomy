@@ -26,10 +26,30 @@ host:
   prof: ":6061"
   grpc: ":9091"
   api: ":1317"
-  frontend: ":80"
   dev-ui: ":12346"
 genesis:
   app_state:
     staking:
       params:
         bond_denom: "nom"
+    crisis:
+      constant_fee:
+        amount: "1000"
+        denom: "nom"
+    gov:
+      deposit_params:
+        max_deposit_period: 172800s
+        min_deposit:
+        - amount: "10000000"
+          denom: "nom"
+    mint:
+      minter:
+        annual_provisions: "0.000000000000000000"
+        inflation: "0.130000000000000000"
+      params:
+        blocks_per_year: "6311520"
+        goal_bonded: "0.670000000000000000"
+        inflation_max: "0.200000000000000000"
+        inflation_min: "0.070000000000000000"
+        inflation_rate_change: "0.130000000000000000"
+        mint_denom: "nom"

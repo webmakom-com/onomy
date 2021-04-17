@@ -22,7 +22,7 @@ docker run --name onomy-devtestnet -p 26656-26659:26656-26659 -p 6061:6061 -p 90
 
 ## Launch
 
-To launch your blockchain live on mutliple nodes use `starport network` commands. Learn more about [Starport Network](https://github.com/tendermint/spn).
+To launch your blockchain live on multiple nodes use `starport network` commands. Learn more about [Starport Network](https://github.com/tendermint/spn).
 
 To use SPN you will need [Starport](https://github.com/tendermint/starport) installed. SPN is being actively developed, please, build Starport from source and use `develop` branch.
 
