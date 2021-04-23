@@ -19,7 +19,7 @@ faucet:
   coins_max: ["1000nom"]
   port: 4500
 init:
-  keyring-backend: "os"
+  keyring-backend: "test"
 host:
   rpc: ":26657"
   p2p: ":26658"
