@@ -23,3 +23,5 @@ require (
 replace google.golang.org/grpc => google.golang.org/grpc v1.33.2
 
 replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
+
+replace gihub.com/cosmos/cosmos-sdk/types/decimal.go => github.com/onomyprotocol/onomy/math/decimal.go@726ad55e4b79d5ef2964fd2456f3cf156f782e03 v0.42.4
