@@ -1,39 +1,41 @@
 # Simple usage with a mounted data directory:
-# > docker build -t onomy .
-# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.onomy:/onomy/.onomy onomy onomyd init
-# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.onomy:/onomy/.onomy onomy onomyd start
+# > docker build -t ochain .
+# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.ochain:/ochain/.ochain ochain ochaind init
+# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.ochain:/ochain/.ochain ochain ochaind start
 FROM golang:1.16-alpine AS build-env
 
 # Set up dependencies
-ENV PACKAGES bash curl make git libc-dev bash gcc linux-headers eudev-dev python3
+ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev python3
 
-# Install minimum necessary dependencies, install Starport, remove packages
+# Set working directory for the build
+WORKDIR /go/src/github.com/onomyprotocol/onomy
+
+# Add source files
+COPY . .
+
+RUN go version
+
+# Install minimum necessary dependencies, build Cosmos SDK, remove packages
 RUN apk add --no-cache $PACKAGES
-RUN curl -v https://get.starport.network/starport | bash
-
-RUN ls /usr/local/bin
+RUN make install
 
 # Final image
 FROM alpine:edge
 
-ENV onomy /onomy
+ENV OCHAIN /ochain
 
 # Install ca-certificates
-RUN apk add --update ca-certificates apt-get
+RUN apk add --update ca-certificates
 
-RUN RUN apt-get update && \
-      apt-get -y install sudo
+RUN addgroup ochain && \
+    adduser -S -G ochain ochain -h "$OCHAIN"
 
-RUN useradd -m onomy && echo "onomy:onomy" | chpasswd && adduser onomy sudo
+USER ochain
 
-USER onomy
-
-WORKDIR $onomy
+WORKDIR $OCHAIN
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/starport /usr/bin/starport
+COPY --from=build-env /go/bin/ochaind /usr/bin/ochaind
 
-RUN sudo chmod +x /usr/bin/starport
-
-# Run onomyd by default, omit entrypoint to ease using container with onomycli
-CMD ["starport"]
+# Run ochaind by default, omit entrypoint to ease using container with ochaincli
+CMD ["ochaind"]
