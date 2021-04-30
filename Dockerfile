@@ -1,7 +1,7 @@
 # Simple usage with a mounted data directory:
-# > docker build -t ochain .
-# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.ochain:/ochain/.ochain ochain ochaind init
-# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.ochain:/ochain/.ochain ochain ochaind start
+# > docker build -t onomy .
+# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.onomy:/onomy/.onomy onomy onomyd init
+# > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.onomy:/onomy/.onomy onomy onomyd start
 FROM golang:1.16-alpine AS build-env
 
 # Set up dependencies
@@ -22,20 +22,20 @@ RUN make install
 # Final image
 FROM alpine:edge
 
-ENV OCHAIN /ochain
+ENV ONOMY /onomy
 
 # Install ca-certificates
 RUN apk add --update ca-certificates
 
-RUN addgroup ochain && \
-    adduser -S -G ochain ochain -h "$OCHAIN"
+RUN addgroup onomy && \
+    adduser -S -G onomy onomy -h "$ONOMY"
 
-USER ochain
+USER onomy
 
-WORKDIR $OCHAIN
+WORKDIR $ONOMY
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/bin/ochaind /usr/bin/ochaind
+COPY --from=build-env /go/bin/onomyd /usr/bin/onomyd
 
-# Run ochaind by default, omit entrypoint to ease using container with ochaincli
-CMD ["ochaind"]
+# Run onomyd by default, omit entrypoint to ease using container with onomycli
+CMD ["onomyd"]
