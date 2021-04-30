@@ -3,10 +3,20 @@ FROM starport/cli:develop
 ENV PATH /usr/bin
 
 # Set working directory for the build
-WORKDIR /go/src/github.com/onomyprotocol/onomy
+WORKDIR /apps/onomy
 
 # Add source files
 COPY . .
+
+# see docs for exposed ports:
+#   https://docs.starport.network/configure/reference.html#host 
+EXPOSE 26657
+EXPOSE 26656
+EXPOSE 6060 
+EXPOSE 9090 
+EXPOSE 1317 
+EXPOSE 8080
+EXPOSE 12345 
 
 # Run onomyd by default, omit entrypoint to ease using container with onomycli
 ENTRYPOINT ["starport"]
