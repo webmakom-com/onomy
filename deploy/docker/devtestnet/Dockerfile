@@ -1,9 +1,12 @@
-FROM ubuntu
+FROM starport/cli:develop
 
-RUN apt-get update \
-    && apt-get -y install curl
+ENV PATH /usr/bin
 
-RUN curl -v https://get.starport.network/starport! | bash
+# Set working directory for the build
+WORKDIR /go/src/github.com/onomyprotocol/onomy
+
+# Add source files
+COPY . .
 
 # Run onomyd by default, omit entrypoint to ease using container with onomycli
-CMD ["starport"]
+ENTRYPOINT ["starport"]
