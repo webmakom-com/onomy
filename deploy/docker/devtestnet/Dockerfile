@@ -15,7 +15,8 @@ RUN apt update && \
     apt-get install -y \
         build-essential \
         ca-certificates \
-        curl
+        curl \
+        protobuf-compiler
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs
