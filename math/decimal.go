@@ -28,6 +28,9 @@ const (
 
 	// max number of iterations in ApproxRoot function
 	maxApproxRootIterations = 100
+	
+	// max number of iterations in Exp function
+	maxExponentIterations = 50
 )
 
 var (
@@ -214,8 +217,7 @@ func (d Dec) BigInt() *big.Int {
 		return nil
 	}
 
-	cp := new(big.Int)
-	return cp.Set(d.i)
+	return new(big.Int).Div(d.i, precisionMultiplier(0))
 }
 
 // addition
@@ -407,6 +409,69 @@ func (d Dec) Power(power uint64) Dec {
 // of finding the square root of a number. It returns -(sqrt(abs(d)) if input is negative.
 func (d Dec) ApproxSqrt() (Dec, error) {
 	return d.ApproxRoot(2)
+}
+
+func (d Dec) Pow(n int64) Dec {
+	if n == 0 {
+		return OneDec()
+	}
+
+	if n < 0 {
+		pow := d.Pow(n * -1)
+		return OneDec().Quo(pow)
+	}
+
+	sum := d
+
+	for i := int64(1); i < n; i++ {
+		sum = sum.Mul(d)
+	}
+
+	return sum
+}
+
+func (d Dec) Fact() (Dec, error) {
+	if d.IsNegative() {
+		return ZeroDec(), errors.New("negative value doesn't have factorial")
+	}
+
+	sum := OneDec()
+
+	for i := OneDec(); i.LT(d); i = i.Add(OneDec()) {
+		sum = sum.Mul(i.Add(OneDec()))
+	}
+
+	return sum, nil
+}
+
+func (d Dec) Exp() Dec {
+	sum := d.Add(OneDec())
+
+	for i := uint64(2); i < maxExponentIterations; i++ {
+		fact, _ := NewDec(int64(i)).Fact()
+		sum = sum.Add(d.Pow(int64(i)).Quo(fact))
+	}
+
+	return sum
+}
+
+func (d Dec) Ln() (Dec, error) {
+	if d.Equal(OneDec()) {
+		return ZeroDec(), nil
+	}
+
+	if d.Equal(NewDecFromFloat64(math.E)) {
+		return OneDec(), nil
+	}
+
+	if d.IsNegative() {
+		return ZeroDec(), errors.New("negative value doesn't have logarithm")
+	}
+
+	log := math.Log(float64(d.BigInt().Int64()))
+	ln := NewDecFromFloat64WithPrec(log, 0)
+
+	return ln, nil
 }
 
 // is integer, e.g. decimals are zero
