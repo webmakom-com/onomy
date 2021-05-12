@@ -123,7 +123,7 @@ func TestDec_RoundInflation(t *testing.T) {
 	tests := []struct {
 		name   string
 		d      Dec
-		a 	   Dec
+		a      Dec
 		b      Dec
 		c      Dec
 		want   Dec
