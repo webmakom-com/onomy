@@ -124,6 +124,21 @@ func NewDecFromIntWithPrec(i Int, prec int64) Dec {
 	}
 }
 
+// create a new Dec from float64
+// CONTRACT: prec <= Precision
+func NewDecFromFloat64(i float64) Dec {
+	return NewDecFromFloat64WithPrec(i, 0)
+}
+
+// create a new Dec from float64 with decimal place at prec
+// CONTRACT: prec <= Precision
+func NewDecFromFloat64WithPrec(i float64, prec int64) Dec {
+	precbigF := new(big.Float).SetInt(precisionMultiplier(prec))
+	bFInt:= new(big.Float).Mul(new(big.Float).SetFloat64(i), precbigF)
+	bInt, _ := bFInt.Int(new(big.Int))
+	return Dec{bInt}
+}
+
 // create a decimal from an input decimal string.
 // valid must come in the form:
 //   (-) whole integers (.) decimal integers
