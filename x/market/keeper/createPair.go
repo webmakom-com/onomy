@@ -73,7 +73,17 @@ func (k Keeper) OnRecvCreatePairPacket(ctx sdk.Context, packet channeltypes.Pack
 		return packetAck, err
 	}
 
-	// TODO: packet reception logic
+	// Check if the buy order book exists
+	pairIndex := types.OrderBookIndex(packet.SourcePort, packet.SourceChannel, data.SourceDenom, data.TargetDenom)
+	_, found := k.GetOrderBook(ctx, pairIndex)
+	if found {
+		return packetAck, errors.New("the pair already exist")
+	}
+
+	// Set the buy order book
+	book := types.NewOrderBook(data.SourceDenom, data.TargetDenom)
+	book.Index = pairIndex
+	k.SetOrderBook(ctx, book)
 
 	return packetAck, nil
 }
@@ -97,7 +107,10 @@ func (k Keeper) OnAcknowledgementCreatePairPacket(ctx sdk.Context, packet channe
 			return errors.New("cannot unmarshal acknowledgment")
 		}
 
-		// TODO: successful acknowledgement logic
+		pairIndex := types.OrderBookIndex(packet.SourcePort, packet.SourceChannel, data.SourceDenom, data.TargetDenom)
+		book := types.NewOrderBook(data.SourceDenom, data.TargetDenom)
+		book.Index = pairIndex
+		k.SetOrderBook(ctx, book)
 
 		return nil
 	default:

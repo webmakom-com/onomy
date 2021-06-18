@@ -148,6 +148,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		markettypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -340,6 +341,7 @@ func New(
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		scopedMarketKeeper,
+		app.BankKeeper,
 	)
 	marketModule := market.NewAppModule(appCodec, app.marketKeeper)
 

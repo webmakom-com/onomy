@@ -4,6 +4,14 @@ import (
 	"strconv"
 )
 
+func NewOrderBook(AmountDenom string, ExchRateDenom string) OrderBook {
+	return OrderBook{
+		OrderIDTrack: 1,
+		AmountDenom:  AmountDenom,
+		ExchRateDenom: ExchRateDenom,
+	}
+}
+
 func (book OrderBook) InsertAt(i int, order Order) OrderBook {
 	if len(book.Orders) == i {
 		book.Orders = append(book.Orders, &order)
@@ -98,5 +106,10 @@ func (book OrderBook) Reconcile(bondAsk, bondBid float64) {
 }
 
 func (book OrderBook) ProcessOrder(order Order) OrderBook {
+	if len(book.Orders) <= 0 {
+		return book
+	}
+
 	return book
 }
+
