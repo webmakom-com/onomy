@@ -1,0 +1,16 @@
+syntax = "proto3";
+package onomyprotocol.onomy.onomy;
+
+option go_package = "github.com/onomyprotocol/onomy/x/onomy/types";
+
+import "gogoproto/gogo.proto";
+
+message Order {
+  string creator = 1;
+  uint64 id = 2;
+  string account = 3; 
+  string amount = 4; 
+  string bid = 5; 
+  string ask = 6; 
+  string exchRate = 7; 
+}

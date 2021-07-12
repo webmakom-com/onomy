@@ -10,6 +10,14 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
+	// Set all the Order
+	for _, elem := range genState.OrderList {
+		k.SetOrder(ctx, *elem)
+	}
+
+	// Set Order count
+	k.SetOrderCount(ctx, uint64(len(genState.OrderList)))
+
 }
 
 // ExportGenesis returns the capability module's exported genesis.
@@ -17,6 +25,12 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 
 	// this line is used by starport scaffolding # genesis/module/export
+	// Get all Order
+	OrderList := k.GetAllOrder(ctx)
+	for _, elem := range OrderList {
+		elem := elem
+		genesis.OrderList = append(genesis.OrderList, &elem)
+	}
 
 	return genesis
 }
