@@ -86,6 +86,9 @@ import (
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
+	"github.com/onomyprotocol/onomy/x/ibcdex"
+	ibcdexkeeper "github.com/onomyprotocol/onomy/x/ibcdex/keeper"
+	ibcdextypes "github.com/onomyprotocol/onomy/x/ibcdex/types"
 	"github.com/onomyprotocol/onomy/x/market"
 	marketkeeper "github.com/onomyprotocol/onomy/x/market/keeper"
 	markettypes "github.com/onomyprotocol/onomy/x/market/types"
@@ -136,6 +139,7 @@ var (
 		vesting.AppModuleBasic{},
 		onomy.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		ibcdex.AppModuleBasic{},
 		market.AppModuleBasic{},
 	)
 
@@ -149,6 +153,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		markettypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
+		ibcdextypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -205,6 +210,8 @@ type App struct {
 
 	onomyKeeper onomykeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+	ScopedIbcdexKeeper capabilitykeeper.ScopedKeeper
+	IbcdexKeeper       ibcdexkeeper.Keeper
 	ScopedMarketKeeper capabilitykeeper.ScopedKeeper
 	marketKeeper       marketkeeper.Keeper
 
@@ -237,6 +244,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		onomytypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
+		ibcdextypes.StoreKey,
 		markettypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -332,6 +340,18 @@ func New(
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
+	scopedIbcdexKeeper := app.CapabilityKeeper.ScopeToModule(ibcdextypes.ModuleName)
+	app.ScopedIbcdexKeeper = scopedIbcdexKeeper
+	app.IbcdexKeeper = *ibcdexkeeper.NewKeeper(
+		appCodec,
+		keys[ibcdextypes.StoreKey],
+		keys[ibcdextypes.MemStoreKey],
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedIbcdexKeeper,
+		app.BankKeeper,
+	)
+	ibcdexModule := ibcdex.NewAppModule(appCodec, app.IbcdexKeeper)
 	scopedMarketKeeper := app.CapabilityKeeper.ScopeToModule(markettypes.ModuleName)
 	app.ScopedMarketKeeper = scopedMarketKeeper
 	app.marketKeeper = *marketkeeper.NewKeeper(
@@ -354,6 +374,7 @@ func New(
 	ibcRouter := porttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferModule)
 	// this line is used by starport scaffolding # ibc/app/router
+	ibcRouter.AddRoute(ibcdextypes.ModuleName, ibcdexModule)
 	ibcRouter.AddRoute(markettypes.ModuleName, marketModule)
 	app.IBCKeeper.SetRouter(ibcRouter)
 
@@ -388,6 +409,7 @@ func New(
 		transferModule,
 		onomy.NewAppModule(appCodec, app.onomyKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
+		ibcdexModule,
 		marketModule,
 	)
 
@@ -423,6 +445,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		onomytypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
+		ibcdextypes.ModuleName,
 		markettypes.ModuleName,
 	)
 
@@ -606,6 +629,7 @@ func initParamsKeeper(appCodec codec.BinaryMarshaler, legacyAmino *codec.LegacyA
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
+	paramsKeeper.Subspace(ibcdextypes.ModuleName)
 	paramsKeeper.Subspace(markettypes.ModuleName)
 
 	return paramsKeeper

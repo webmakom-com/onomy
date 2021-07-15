@@ -6,8 +6,8 @@ import (
 
 func NewOrderBook(AmountDenom string, ExchRateDenom string) OrderBook {
 	return OrderBook{
-		OrderIDTrack: 1,
-		AmountDenom:  AmountDenom,
+		OrderIDTrack:  1,
+		AmountDenom:   AmountDenom,
 		ExchRateDenom: ExchRateDenom,
 	}
 }
@@ -112,4 +112,3 @@ func (book OrderBook) ProcessOrder(order Order) OrderBook {
 
 	return book
 }
-

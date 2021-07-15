@@ -1,2 +1,12 @@
+import { DenomTrace } from "./module/types/market/denomTrace";
+import { Order } from "./module/types/market/order";
+import { OrderBook } from "./module/types/market/orderBook";
+import { MarketPacketData } from "./module/types/market/packet";
+import { NoData } from "./module/types/market/packet";
+import { CreateOrderPacketData } from "./module/types/market/packet";
+import { CreateOrderPacketAck } from "./module/types/market/packet";
+import { CreatePairPacketData } from "./module/types/market/packet";
+import { CreatePairPacketAck } from "./module/types/market/packet";
+export { DenomTrace, Order, OrderBook, MarketPacketData, NoData, CreateOrderPacketData, CreateOrderPacketAck, CreatePairPacketData, CreatePairPacketAck };
 declare const _default;
 export default _default;
