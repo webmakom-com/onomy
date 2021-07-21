@@ -155,11 +155,38 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryOrder
-         * @summary this line is used by starport scaffolding # 2
          * @request GET:/onomyprotocol/onomy/onomy/Order/{id}
          */
         this.queryOrder = (id, params = {}) => this.request({
             path: `/onomyprotocol/onomy/onomy/Order/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryPairAll
+         * @request GET:/onomyprotocol/onomy/onomy/Pair
+         */
+        this.queryPairAll = (query, params = {}) => this.request({
+            path: `/onomyprotocol/onomy/onomy/Pair`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryPair
+         * @summary this line is used by starport scaffolding # 2
+         * @request GET:/onomyprotocol/onomy/onomy/Pair/{id}
+         */
+        this.queryPair = (id, params = {}) => this.request({
+            path: `/onomyprotocol/onomy/onomy/Pair/${id}`,
             method: "GET",
             format: "json",
             ...params,

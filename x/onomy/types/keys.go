@@ -25,3 +25,8 @@ const (
 	OrderKey      = "Order-value-"
 	OrderCountKey = "Order-count-"
 )
+
+const (
+	PairKey      = "Pair-value-"
+	PairCountKey = "Pair-count-"
+)

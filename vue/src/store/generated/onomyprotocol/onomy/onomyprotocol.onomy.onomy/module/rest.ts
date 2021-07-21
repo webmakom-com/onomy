@@ -14,9 +14,18 @@ export interface OnomyMsgCreateOrderResponse {
   id?: string;
 }
 
+export interface OnomyMsgCreatePairResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 export type OnomyMsgDeleteOrderResponse = object;
 
+export type OnomyMsgDeletePairResponse = object;
+
 export type OnomyMsgUpdateOrderResponse = object;
+
+export type OnomyMsgUpdatePairResponse = object;
 
 export interface OnomyOrder {
   creator?: string;
@@ -28,6 +37,15 @@ export interface OnomyOrder {
   bid?: string;
   ask?: string;
   exchRate?: string;
+}
+
+export interface OnomyPair {
+  creator?: string;
+
+  /** @format uint64 */
+  id?: string;
+  bid?: string;
+  ask?: string;
 }
 
 export interface OnomyQueryAllOrderResponse {
@@ -45,8 +63,27 @@ export interface OnomyQueryAllOrderResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface OnomyQueryAllPairResponse {
+  Pair?: OnomyPair[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface OnomyQueryGetOrderResponse {
   Order?: OnomyOrder;
+}
+
+export interface OnomyQueryGetPairResponse {
+  Pair?: OnomyPair;
 }
 
 export interface ProtobufAny {
@@ -344,12 +381,51 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryOrder
-   * @summary this line is used by starport scaffolding # 2
    * @request GET:/onomyprotocol/onomy/onomy/Order/{id}
    */
   queryOrder = (id: string, params: RequestParams = {}) =>
     this.request<OnomyQueryGetOrderResponse, RpcStatus>({
       path: `/onomyprotocol/onomy/onomy/Order/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryPairAll
+   * @request GET:/onomyprotocol/onomy/onomy/Pair
+   */
+  queryPairAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<OnomyQueryAllPairResponse, RpcStatus>({
+      path: `/onomyprotocol/onomy/onomy/Pair`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryPair
+   * @summary this line is used by starport scaffolding # 2
+   * @request GET:/onomyprotocol/onomy/onomy/Pair/{id}
+   */
+  queryPair = (id: string, params: RequestParams = {}) =>
+    this.request<OnomyQueryGetPairResponse, RpcStatus>({
+      path: `/onomyprotocol/onomy/onomy/Pair/${id}`,
       method: "GET",
       format: "json",
       ...params,

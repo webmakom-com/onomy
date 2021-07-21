@@ -8,12 +8,41 @@ option go_package = "github.com/onomyprotocol/onomy/x/onomy/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreatePair(MsgCreatePair) returns (MsgCreatePairResponse);
+  rpc UpdatePair(MsgUpdatePair) returns (MsgUpdatePairResponse);
+  rpc DeletePair(MsgDeletePair) returns (MsgDeletePairResponse);
   rpc CreateOrder(MsgCreateOrder) returns (MsgCreateOrderResponse);
   rpc UpdateOrder(MsgUpdateOrder) returns (MsgUpdateOrderResponse);
   rpc DeleteOrder(MsgDeleteOrder) returns (MsgDeleteOrderResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreatePair {
+  string creator = 1;
+  string bid = 2;
+  string ask = 3;
+}
+
+message MsgCreatePairResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdatePair {
+  string creator = 1;
+  uint64 id = 2;
+  string bid = 3;
+  string ask = 4;
+}
+
+message MsgUpdatePairResponse { }
+
+message MsgDeletePair {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeletePairResponse { }
+
 message MsgCreateOrder {
   string creator = 1;
   string account = 2;

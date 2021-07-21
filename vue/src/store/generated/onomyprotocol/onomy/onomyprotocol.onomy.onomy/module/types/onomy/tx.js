@@ -2,6 +2,388 @@
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 export const protobufPackage = "onomyprotocol.onomy.onomy";
+const baseMsgCreatePair = { creator: "", bid: "", ask: "" };
+export const MsgCreatePair = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.bid !== "") {
+            writer.uint32(18).string(message.bid);
+        }
+        if (message.ask !== "") {
+            writer.uint32(26).string(message.ask);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgCreatePair };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.bid = reader.string();
+                    break;
+                case 3:
+                    message.ask = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgCreatePair };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.bid !== undefined && object.bid !== null) {
+            message.bid = String(object.bid);
+        }
+        else {
+            message.bid = "";
+        }
+        if (object.ask !== undefined && object.ask !== null) {
+            message.ask = String(object.ask);
+        }
+        else {
+            message.ask = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.bid !== undefined && (obj.bid = message.bid);
+        message.ask !== undefined && (obj.ask = message.ask);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgCreatePair };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.bid !== undefined && object.bid !== null) {
+            message.bid = object.bid;
+        }
+        else {
+            message.bid = "";
+        }
+        if (object.ask !== undefined && object.ask !== null) {
+            message.ask = object.ask;
+        }
+        else {
+            message.ask = "";
+        }
+        return message;
+    },
+};
+const baseMsgCreatePairResponse = { id: 0 };
+export const MsgCreatePairResponse = {
+    encode(message, writer = Writer.create()) {
+        if (message.id !== 0) {
+            writer.uint32(8).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgCreatePairResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgCreatePairResponse };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgCreatePairResponse };
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgUpdatePair = { creator: "", id: 0, bid: "", ask: "" };
+export const MsgUpdatePair = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint64(message.id);
+        }
+        if (message.bid !== "") {
+            writer.uint32(26).string(message.bid);
+        }
+        if (message.ask !== "") {
+            writer.uint32(34).string(message.ask);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdatePair };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                case 3:
+                    message.bid = reader.string();
+                    break;
+                case 4:
+                    message.ask = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgUpdatePair };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        if (object.bid !== undefined && object.bid !== null) {
+            message.bid = String(object.bid);
+        }
+        else {
+            message.bid = "";
+        }
+        if (object.ask !== undefined && object.ask !== null) {
+            message.ask = String(object.ask);
+        }
+        else {
+            message.ask = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.id !== undefined && (obj.id = message.id);
+        message.bid !== undefined && (obj.bid = message.bid);
+        message.ask !== undefined && (obj.ask = message.ask);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgUpdatePair };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        if (object.bid !== undefined && object.bid !== null) {
+            message.bid = object.bid;
+        }
+        else {
+            message.bid = "";
+        }
+        if (object.ask !== undefined && object.ask !== null) {
+            message.ask = object.ask;
+        }
+        else {
+            message.ask = "";
+        }
+        return message;
+    },
+};
+const baseMsgUpdatePairResponse = {};
+export const MsgUpdatePairResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgUpdatePairResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgUpdatePairResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgUpdatePairResponse };
+        return message;
+    },
+};
+const baseMsgDeletePair = { creator: "", id: 0 };
+export const MsgDeletePair = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgDeletePair };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgDeletePair };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgDeletePair };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = object.id;
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+};
+const baseMsgDeletePairResponse = {};
+export const MsgDeletePairResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgDeletePairResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgDeletePairResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgDeletePairResponse };
+        return message;
+    },
+};
 const baseMsgCreateOrder = {
     creator: "",
     account: "",
@@ -516,6 +898,21 @@ export const MsgDeleteOrderResponse = {
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
+    }
+    CreatePair(request) {
+        const data = MsgCreatePair.encode(request).finish();
+        const promise = this.rpc.request("onomyprotocol.onomy.onomy.Msg", "CreatePair", data);
+        return promise.then((data) => MsgCreatePairResponse.decode(new Reader(data)));
+    }
+    UpdatePair(request) {
+        const data = MsgUpdatePair.encode(request).finish();
+        const promise = this.rpc.request("onomyprotocol.onomy.onomy.Msg", "UpdatePair", data);
+        return promise.then((data) => MsgUpdatePairResponse.decode(new Reader(data)));
+    }
+    DeletePair(request) {
+        const data = MsgDeletePair.encode(request).finish();
+        const promise = this.rpc.request("onomyprotocol.onomy.onomy.Msg", "DeletePair", data);
+        return promise.then((data) => MsgDeletePairResponse.decode(new Reader(data)));
     }
     CreateOrder(request) {
         const data = MsgCreateOrder.encode(request).finish();

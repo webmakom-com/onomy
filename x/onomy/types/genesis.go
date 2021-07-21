@@ -11,6 +11,7 @@ const DefaultIndex uint64 = 1
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		// this line is used by starport scaffolding # genesis/types/default
+		PairList:  []*Pair{},
 		OrderList: []*Order{},
 	}
 }
@@ -19,6 +20,15 @@ func DefaultGenesis() *GenesisState {
 // failure.
 func (gs GenesisState) Validate() error {
 	// this line is used by starport scaffolding # genesis/types/validate
+	// Check for duplicated ID in Pair
+	PairIdMap := make(map[uint64]bool)
+
+	for _, elem := range gs.PairList {
+		if _, ok := PairIdMap[elem.Id]; ok {
+			return fmt.Errorf("duplicated id for Pair")
+		}
+		PairIdMap[elem.Id] = true
+	}
 	// Check for duplicated ID in Order
 	OrderIdMap := make(map[uint64]bool)
 

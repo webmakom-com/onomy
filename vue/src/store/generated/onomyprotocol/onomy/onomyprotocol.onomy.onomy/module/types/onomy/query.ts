@@ -1,15 +1,33 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
-import { Order } from "../onomy/Order";
+import { Pair } from "../onomy/Pair";
 import {
   PageRequest,
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
+import { Order } from "../onomy/Order";
 
 export const protobufPackage = "onomyprotocol.onomy.onomy";
 
 /** this line is used by starport scaffolding # 3 */
+export interface QueryGetPairRequest {
+  id: number;
+}
+
+export interface QueryGetPairResponse {
+  Pair: Pair | undefined;
+}
+
+export interface QueryAllPairRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllPairResponse {
+  Pair: Pair[];
+  pagination: PageResponse | undefined;
+}
+
 export interface QueryGetOrderRequest {
   id: number;
 }
@@ -26,6 +44,272 @@ export interface QueryAllOrderResponse {
   Order: Order[];
   pagination: PageResponse | undefined;
 }
+
+const baseQueryGetPairRequest: object = { id: 0 };
+
+export const QueryGetPairRequest = {
+  encode(
+    message: QueryGetPairRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetPairRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetPairRequest } as QueryGetPairRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetPairRequest {
+    const message = { ...baseQueryGetPairRequest } as QueryGetPairRequest;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetPairRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGetPairRequest>): QueryGetPairRequest {
+    const message = { ...baseQueryGetPairRequest } as QueryGetPairRequest;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseQueryGetPairResponse: object = {};
+
+export const QueryGetPairResponse = {
+  encode(
+    message: QueryGetPairResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.Pair !== undefined) {
+      Pair.encode(message.Pair, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetPairResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetPairResponse } as QueryGetPairResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Pair = Pair.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetPairResponse {
+    const message = { ...baseQueryGetPairResponse } as QueryGetPairResponse;
+    if (object.Pair !== undefined && object.Pair !== null) {
+      message.Pair = Pair.fromJSON(object.Pair);
+    } else {
+      message.Pair = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetPairResponse): unknown {
+    const obj: any = {};
+    message.Pair !== undefined &&
+      (obj.Pair = message.Pair ? Pair.toJSON(message.Pair) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGetPairResponse>): QueryGetPairResponse {
+    const message = { ...baseQueryGetPairResponse } as QueryGetPairResponse;
+    if (object.Pair !== undefined && object.Pair !== null) {
+      message.Pair = Pair.fromPartial(object.Pair);
+    } else {
+      message.Pair = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllPairRequest: object = {};
+
+export const QueryAllPairRequest = {
+  encode(
+    message: QueryAllPairRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllPairRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllPairRequest } as QueryAllPairRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllPairRequest {
+    const message = { ...baseQueryAllPairRequest } as QueryAllPairRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllPairRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllPairRequest>): QueryAllPairRequest {
+    const message = { ...baseQueryAllPairRequest } as QueryAllPairRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllPairResponse: object = {};
+
+export const QueryAllPairResponse = {
+  encode(
+    message: QueryAllPairResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.Pair) {
+      Pair.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllPairResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllPairResponse } as QueryAllPairResponse;
+    message.Pair = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Pair.push(Pair.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllPairResponse {
+    const message = { ...baseQueryAllPairResponse } as QueryAllPairResponse;
+    message.Pair = [];
+    if (object.Pair !== undefined && object.Pair !== null) {
+      for (const e of object.Pair) {
+        message.Pair.push(Pair.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllPairResponse): unknown {
+    const obj: any = {};
+    if (message.Pair) {
+      obj.Pair = message.Pair.map((e) => (e ? Pair.toJSON(e) : undefined));
+    } else {
+      obj.Pair = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllPairResponse>): QueryAllPairResponse {
+    const message = { ...baseQueryAllPairResponse } as QueryAllPairResponse;
+    message.Pair = [];
+    if (object.Pair !== undefined && object.Pair !== null) {
+      for (const e of object.Pair) {
+        message.Pair.push(Pair.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
 
 const baseQueryGetOrderRequest: object = { id: 0 };
 
@@ -300,6 +584,8 @@ export const QueryAllOrderResponse = {
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** this line is used by starport scaffolding # 2 */
+  Pair(request: QueryGetPairRequest): Promise<QueryGetPairResponse>;
+  PairAll(request: QueryAllPairRequest): Promise<QueryAllPairResponse>;
   Order(request: QueryGetOrderRequest): Promise<QueryGetOrderResponse>;
   OrderAll(request: QueryAllOrderRequest): Promise<QueryAllOrderResponse>;
 }
@@ -309,6 +595,30 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
+  Pair(request: QueryGetPairRequest): Promise<QueryGetPairResponse> {
+    const data = QueryGetPairRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "onomyprotocol.onomy.onomy.Query",
+      "Pair",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetPairResponse.decode(new Reader(data))
+    );
+  }
+
+  PairAll(request: QueryAllPairRequest): Promise<QueryAllPairResponse> {
+    const data = QueryAllPairRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "onomyprotocol.onomy.onomy.Query",
+      "PairAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllPairResponse.decode(new Reader(data))
+    );
+  }
+
   Order(request: QueryGetOrderRequest): Promise<QueryGetOrderResponse> {
     const data = QueryGetOrderRequest.encode(request).finish();
     const promise = this.rpc.request(

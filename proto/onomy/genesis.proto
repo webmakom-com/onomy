@@ -2,6 +2,7 @@ syntax = "proto3";
 package onomyprotocol.onomy.onomy;
 
 // this line is used by starport scaffolding # genesis/proto/import
+import "onomy/Pair.proto";
 import "onomy/Order.proto";
 
 option go_package = "github.com/onomyprotocol/onomy/x/onomy/types";
@@ -9,6 +10,7 @@ option go_package = "github.com/onomyprotocol/onomy/x/onomy/types";
 // GenesisState defines the capability module's genesis state.
 message GenesisState {
     // this line is used by starport scaffolding # genesis/proto/state
+		repeated Pair PairList = 2; // this line is used by starport scaffolding # genesis/proto/stateField
 		repeated Order OrderList = 1; // this line is used by starport scaffolding # genesis/proto/stateField
 }
 

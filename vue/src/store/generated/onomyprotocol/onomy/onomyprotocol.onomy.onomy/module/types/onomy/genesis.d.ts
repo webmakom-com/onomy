@@ -1,9 +1,12 @@
+import { Pair } from "../onomy/Pair";
 import { Order } from "../onomy/Order";
 import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "onomyprotocol.onomy.onomy";
 /** GenesisState defines the capability module's genesis state. */
 export interface GenesisState {
     /** this line is used by starport scaffolding # genesis/proto/state */
+    PairList: Pair[];
+    /** this line is used by starport scaffolding # genesis/proto/stateField */
     OrderList: Order[];
 }
 export declare const GenesisState: {

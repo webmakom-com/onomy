@@ -1,6 +1,28 @@
 import { Reader, Writer } from "protobufjs/minimal";
 export declare const protobufPackage = "onomyprotocol.onomy.onomy";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCreatePair {
+    creator: string;
+    bid: string;
+    ask: string;
+}
+export interface MsgCreatePairResponse {
+    id: number;
+}
+export interface MsgUpdatePair {
+    creator: string;
+    id: number;
+    bid: string;
+    ask: string;
+}
+export interface MsgUpdatePairResponse {
+}
+export interface MsgDeletePair {
+    creator: string;
+    id: number;
+}
+export interface MsgDeletePairResponse {
+}
 export interface MsgCreateOrder {
     creator: string;
     account: string;
@@ -29,6 +51,48 @@ export interface MsgDeleteOrder {
 }
 export interface MsgDeleteOrderResponse {
 }
+export declare const MsgCreatePair: {
+    encode(message: MsgCreatePair, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreatePair;
+    fromJSON(object: any): MsgCreatePair;
+    toJSON(message: MsgCreatePair): unknown;
+    fromPartial(object: DeepPartial<MsgCreatePair>): MsgCreatePair;
+};
+export declare const MsgCreatePairResponse: {
+    encode(message: MsgCreatePairResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCreatePairResponse;
+    fromJSON(object: any): MsgCreatePairResponse;
+    toJSON(message: MsgCreatePairResponse): unknown;
+    fromPartial(object: DeepPartial<MsgCreatePairResponse>): MsgCreatePairResponse;
+};
+export declare const MsgUpdatePair: {
+    encode(message: MsgUpdatePair, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdatePair;
+    fromJSON(object: any): MsgUpdatePair;
+    toJSON(message: MsgUpdatePair): unknown;
+    fromPartial(object: DeepPartial<MsgUpdatePair>): MsgUpdatePair;
+};
+export declare const MsgUpdatePairResponse: {
+    encode(_: MsgUpdatePairResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUpdatePairResponse;
+    fromJSON(_: any): MsgUpdatePairResponse;
+    toJSON(_: MsgUpdatePairResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUpdatePairResponse>): MsgUpdatePairResponse;
+};
+export declare const MsgDeletePair: {
+    encode(message: MsgDeletePair, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeletePair;
+    fromJSON(object: any): MsgDeletePair;
+    toJSON(message: MsgDeletePair): unknown;
+    fromPartial(object: DeepPartial<MsgDeletePair>): MsgDeletePair;
+};
+export declare const MsgDeletePairResponse: {
+    encode(_: MsgDeletePairResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeletePairResponse;
+    fromJSON(_: any): MsgDeletePairResponse;
+    toJSON(_: MsgDeletePairResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeletePairResponse>): MsgDeletePairResponse;
+};
 export declare const MsgCreateOrder: {
     encode(message: MsgCreateOrder, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateOrder;
@@ -74,6 +138,9 @@ export declare const MsgDeleteOrderResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    CreatePair(request: MsgCreatePair): Promise<MsgCreatePairResponse>;
+    UpdatePair(request: MsgUpdatePair): Promise<MsgUpdatePairResponse>;
+    DeletePair(request: MsgDeletePair): Promise<MsgDeletePairResponse>;
     CreateOrder(request: MsgCreateOrder): Promise<MsgCreateOrderResponse>;
     UpdateOrder(request: MsgUpdateOrder): Promise<MsgUpdateOrderResponse>;
     DeleteOrder(request: MsgDeleteOrder): Promise<MsgDeleteOrderResponse>;
@@ -81,6 +148,9 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    CreatePair(request: MsgCreatePair): Promise<MsgCreatePairResponse>;
+    UpdatePair(request: MsgUpdatePair): Promise<MsgUpdatePairResponse>;
+    DeletePair(request: MsgDeletePair): Promise<MsgDeletePairResponse>;
     CreateOrder(request: MsgCreateOrder): Promise<MsgCreateOrderResponse>;
     UpdateOrder(request: MsgUpdateOrder): Promise<MsgUpdateOrderResponse>;
     DeleteOrder(request: MsgDeleteOrder): Promise<MsgDeleteOrderResponse>;

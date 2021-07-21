@@ -5,6 +5,32 @@ import * as Long from "long";
 export const protobufPackage = "onomyprotocol.onomy.onomy";
 
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCreatePair {
+  creator: string;
+  bid: string;
+  ask: string;
+}
+
+export interface MsgCreatePairResponse {
+  id: number;
+}
+
+export interface MsgUpdatePair {
+  creator: string;
+  id: number;
+  bid: string;
+  ask: string;
+}
+
+export interface MsgUpdatePairResponse {}
+
+export interface MsgDeletePair {
+  creator: string;
+  id: number;
+}
+
+export interface MsgDeletePairResponse {}
+
 export interface MsgCreateOrder {
   creator: string;
   account: string;
@@ -36,6 +62,409 @@ export interface MsgDeleteOrder {
 }
 
 export interface MsgDeleteOrderResponse {}
+
+const baseMsgCreatePair: object = { creator: "", bid: "", ask: "" };
+
+export const MsgCreatePair = {
+  encode(message: MsgCreatePair, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.bid !== "") {
+      writer.uint32(18).string(message.bid);
+    }
+    if (message.ask !== "") {
+      writer.uint32(26).string(message.ask);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreatePair {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreatePair } as MsgCreatePair;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.bid = reader.string();
+          break;
+        case 3:
+          message.ask = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreatePair {
+    const message = { ...baseMsgCreatePair } as MsgCreatePair;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.bid !== undefined && object.bid !== null) {
+      message.bid = String(object.bid);
+    } else {
+      message.bid = "";
+    }
+    if (object.ask !== undefined && object.ask !== null) {
+      message.ask = String(object.ask);
+    } else {
+      message.ask = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreatePair): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.bid !== undefined && (obj.bid = message.bid);
+    message.ask !== undefined && (obj.ask = message.ask);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCreatePair>): MsgCreatePair {
+    const message = { ...baseMsgCreatePair } as MsgCreatePair;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.bid !== undefined && object.bid !== null) {
+      message.bid = object.bid;
+    } else {
+      message.bid = "";
+    }
+    if (object.ask !== undefined && object.ask !== null) {
+      message.ask = object.ask;
+    } else {
+      message.ask = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgCreatePairResponse: object = { id: 0 };
+
+export const MsgCreatePairResponse = {
+  encode(
+    message: MsgCreatePairResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreatePairResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreatePairResponse } as MsgCreatePairResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreatePairResponse {
+    const message = { ...baseMsgCreatePairResponse } as MsgCreatePairResponse;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreatePairResponse): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgCreatePairResponse>
+  ): MsgCreatePairResponse {
+    const message = { ...baseMsgCreatePairResponse } as MsgCreatePairResponse;
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdatePair: object = { creator: "", id: 0, bid: "", ask: "" };
+
+export const MsgUpdatePair = {
+  encode(message: MsgUpdatePair, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.id !== 0) {
+      writer.uint32(16).uint64(message.id);
+    }
+    if (message.bid !== "") {
+      writer.uint32(26).string(message.bid);
+    }
+    if (message.ask !== "") {
+      writer.uint32(34).string(message.ask);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdatePair {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdatePair } as MsgUpdatePair;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.bid = reader.string();
+          break;
+        case 4:
+          message.ask = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdatePair {
+    const message = { ...baseMsgUpdatePair } as MsgUpdatePair;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    if (object.bid !== undefined && object.bid !== null) {
+      message.bid = String(object.bid);
+    } else {
+      message.bid = "";
+    }
+    if (object.ask !== undefined && object.ask !== null) {
+      message.ask = String(object.ask);
+    } else {
+      message.ask = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdatePair): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = message.id);
+    message.bid !== undefined && (obj.bid = message.bid);
+    message.ask !== undefined && (obj.ask = message.ask);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgUpdatePair>): MsgUpdatePair {
+    const message = { ...baseMsgUpdatePair } as MsgUpdatePair;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    if (object.bid !== undefined && object.bid !== null) {
+      message.bid = object.bid;
+    } else {
+      message.bid = "";
+    }
+    if (object.ask !== undefined && object.ask !== null) {
+      message.ask = object.ask;
+    } else {
+      message.ask = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdatePairResponse: object = {};
+
+export const MsgUpdatePairResponse = {
+  encode(_: MsgUpdatePairResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdatePairResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdatePairResponse } as MsgUpdatePairResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdatePairResponse {
+    const message = { ...baseMsgUpdatePairResponse } as MsgUpdatePairResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdatePairResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgUpdatePairResponse>): MsgUpdatePairResponse {
+    const message = { ...baseMsgUpdatePairResponse } as MsgUpdatePairResponse;
+    return message;
+  },
+};
+
+const baseMsgDeletePair: object = { creator: "", id: 0 };
+
+export const MsgDeletePair = {
+  encode(message: MsgDeletePair, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.id !== 0) {
+      writer.uint32(16).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeletePair {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeletePair } as MsgDeletePair;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeletePair {
+    const message = { ...baseMsgDeletePair } as MsgDeletePair;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = Number(object.id);
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeletePair): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = message.id);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgDeletePair>): MsgDeletePair {
+    const message = { ...baseMsgDeletePair } as MsgDeletePair;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.id !== undefined && object.id !== null) {
+      message.id = object.id;
+    } else {
+      message.id = 0;
+    }
+    return message;
+  },
+};
+
+const baseMsgDeletePairResponse: object = {};
+
+export const MsgDeletePairResponse = {
+  encode(_: MsgDeletePairResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeletePairResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeletePairResponse } as MsgDeletePairResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeletePairResponse {
+    const message = { ...baseMsgDeletePairResponse } as MsgDeletePairResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeletePairResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgDeletePairResponse>): MsgDeletePairResponse {
+    const message = { ...baseMsgDeletePairResponse } as MsgDeletePairResponse;
+    return message;
+  },
+};
 
 const baseMsgCreateOrder: object = {
   creator: "",
@@ -560,6 +989,9 @@ export const MsgDeleteOrderResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** this line is used by starport scaffolding # proto/tx/rpc */
+  CreatePair(request: MsgCreatePair): Promise<MsgCreatePairResponse>;
+  UpdatePair(request: MsgUpdatePair): Promise<MsgUpdatePairResponse>;
+  DeletePair(request: MsgDeletePair): Promise<MsgDeletePairResponse>;
   CreateOrder(request: MsgCreateOrder): Promise<MsgCreateOrderResponse>;
   UpdateOrder(request: MsgUpdateOrder): Promise<MsgUpdateOrderResponse>;
   DeleteOrder(request: MsgDeleteOrder): Promise<MsgDeleteOrderResponse>;
@@ -570,6 +1002,42 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
+  CreatePair(request: MsgCreatePair): Promise<MsgCreatePairResponse> {
+    const data = MsgCreatePair.encode(request).finish();
+    const promise = this.rpc.request(
+      "onomyprotocol.onomy.onomy.Msg",
+      "CreatePair",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreatePairResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdatePair(request: MsgUpdatePair): Promise<MsgUpdatePairResponse> {
+    const data = MsgUpdatePair.encode(request).finish();
+    const promise = this.rpc.request(
+      "onomyprotocol.onomy.onomy.Msg",
+      "UpdatePair",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdatePairResponse.decode(new Reader(data))
+    );
+  }
+
+  DeletePair(request: MsgDeletePair): Promise<MsgDeletePairResponse> {
+    const data = MsgDeletePair.encode(request).finish();
+    const promise = this.rpc.request(
+      "onomyprotocol.onomy.onomy.Msg",
+      "DeletePair",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeletePairResponse.decode(new Reader(data))
+    );
+  }
+
   CreateOrder(request: MsgCreateOrder): Promise<MsgCreateOrderResponse> {
     const data = MsgCreateOrder.encode(request).finish();
     const promise = this.rpc.request(
