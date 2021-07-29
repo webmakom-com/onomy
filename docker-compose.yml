@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  storage:
+#    image: kobs/mycointainer-storage
+    build:
+      context: ./storage
+      dockerfile: Dockerfile
+    ports:
+      - "8818:8818"
+      - "27017:27017"

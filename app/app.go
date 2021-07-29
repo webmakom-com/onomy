@@ -86,6 +86,9 @@ import (
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
+	"github.com/onomyprotocol/onomy/x/market"
+	marketkeeper "github.com/onomyprotocol/onomy/x/market/keeper"
+	markettypes "github.com/onomyprotocol/onomy/x/market/types"
 )
 
 const Name = "onomy"
@@ -133,6 +136,7 @@ var (
 		vesting.AppModuleBasic{},
 		onomy.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
+		market.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -201,6 +205,8 @@ type App struct {
 	onomyKeeper onomykeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
+	marketKeeper marketkeeper.Keeper
+
 	// the module manager
 	mm *module.Manager
 }
@@ -230,6 +236,7 @@ func New(
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
 		onomytypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
+		markettypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -325,6 +332,13 @@ func New(
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
+	app.marketKeeper = *marketkeeper.NewKeeper(
+		appCodec,
+		keys[markettypes.StoreKey],
+		keys[markettypes.MemStoreKey],
+	)
+	marketModule := market.NewAppModule(appCodec, app.marketKeeper)
+
 	app.GovKeeper = govkeeper.NewKeeper(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
 		&stakingKeeper, govRouter,
@@ -367,6 +381,7 @@ func New(
 		transferModule,
 		onomy.NewAppModule(appCodec, app.onomyKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
+		marketModule,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -401,6 +416,7 @@ func New(
 		ibctransfertypes.ModuleName,
 		onomytypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
+		markettypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -583,6 +599,7 @@ func initParamsKeeper(appCodec codec.BinaryMarshaler, legacyAmino *codec.LegacyA
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
+	paramsKeeper.Subspace(markettypes.ModuleName)
 
 	return paramsKeeper
 }
