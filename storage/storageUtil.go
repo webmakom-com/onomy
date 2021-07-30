@@ -95,7 +95,7 @@ func CallSaiStorage(method string, request Request) string {
 
 	request.token = myToken.Token
 
-	return callSaiStorage(config.DB.Local.Host+"/"+method, request)
+	return callSaiStorage("http://storage:8818/"+method, request)
 }
 
 func callSaiStorage(url string, request Request) string {

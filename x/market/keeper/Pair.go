@@ -2,8 +2,10 @@ package keeper
 
 import (
 	"encoding/binary"
+	"fmt"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/onomyprotocol/onomy/storage"
 	"github.com/onomyprotocol/onomy/x/market/types"
 	"strconv"
 )
@@ -53,6 +55,8 @@ func (k Keeper) AppendPair(
 		Ask:     ask,
 	}
 
+	//Pair = processPair(Pair)
+
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.PairKey))
 	value := k.cdc.MustMarshalBinaryBare(&Pair)
 	store.Set(GetPairIDBytes(Pair.Id), value)
@@ -65,6 +69,7 @@ func (k Keeper) AppendPair(
 
 // SetPair set a specific Pair in the store
 func (k Keeper) SetPair(ctx sdk.Context, Pair types.Pair) {
+	Pair = processPair(Pair)
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.PairKey))
 	b := k.cdc.MustMarshalBinaryBare(&Pair)
 	store.Set(GetPairIDBytes(Pair.Id), b)
@@ -121,4 +126,15 @@ func GetPairIDBytes(id uint64) []byte {
 // GetPairIDFromBytes returns ID in uint64 format from a byte array
 func GetPairIDFromBytes(bz []byte) uint64 {
 	return binary.BigEndian.Uint64(bz)
+}
+
+func processPair(Pair types.Pair) types.Pair {
+
+	// logic
+	fmt.Println("Pair: aaa")
+	//Save to the mongo
+	request := storage.Request{Collection: "pairs", Data: Pair}
+	_ = storage.CallSaiStorage("save", request)
+
+	return Pair
 }

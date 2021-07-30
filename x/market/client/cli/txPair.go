@@ -12,7 +12,7 @@ import (
 
 func CmdCreatePair() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-Pair [bid] [ask]",
+		Use:   "create-pair [bid] [ask]",
 		Short: "Creates a new Pair",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -39,7 +39,7 @@ func CmdCreatePair() *cobra.Command {
 
 func CmdUpdatePair() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-Pair [id] [bid] [ask]",
+		Use:   "update-pair [id] [bid] [ask]",
 		Short: "Update a Pair",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -71,7 +71,7 @@ func CmdUpdatePair() *cobra.Command {
 
 func CmdDeletePair() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-Pair [id] [bid] [ask]",
+		Use:   "delete-pair [id] [bid] [ask]",
 		Short: "Delete a Pair by id",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {

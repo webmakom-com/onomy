@@ -12,7 +12,7 @@ import (
 
 func CmdListPair() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-Pair",
+		Use:   "list-pair",
 		Short: "list all Pair",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
@@ -44,7 +44,7 @@ func CmdListPair() *cobra.Command {
 
 func CmdShowPair() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-Pair [id]",
+		Use:   "show-pair [id]",
 		Short: "shows a Pair",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {

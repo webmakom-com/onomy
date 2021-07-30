@@ -12,7 +12,7 @@ import (
 
 func CmdCreateOrder() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-Order [account] [amount] [bid] [ask] [exchRate]",
+		Use:   "create-order [account] [amount] [bid] [ask] [exchRate]",
 		Short: "Creates a new Order",
 		Args:  cobra.ExactArgs(5),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -42,7 +42,7 @@ func CmdCreateOrder() *cobra.Command {
 
 func CmdUpdateOrder() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-Order [id] [account] [amount] [bid] [ask] [exchRate]",
+		Use:   "update-order [id] [account] [amount] [bid] [ask] [exchRate]",
 		Short: "Update a Order",
 		Args:  cobra.ExactArgs(6),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -77,7 +77,7 @@ func CmdUpdateOrder() *cobra.Command {
 
 func CmdDeleteOrder() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-Order [id] [account] [amount] [bid] [ask] [exchRate]",
+		Use:   "delete-order [id] [account] [amount] [bid] [ask] [exchRate]",
 		Short: "Delete a Order by id",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {

@@ -24,22 +24,22 @@ func RegisterRoutes(clientCtx client.Context, r *mux.Router) {
 
 func registerQueryRoutes(clientCtx client.Context, r *mux.Router) {
 	// this line is used by starport scaffolding # 3
-	r.HandleFunc("/market/Pairs/{id}", getPairHandler(clientCtx)).Methods("GET")
-	r.HandleFunc("/market/Pairs", listPairHandler(clientCtx)).Methods("GET")
+	r.HandleFunc("/market/pairs/{id}", getPairHandler(clientCtx)).Methods("GET")
+	r.HandleFunc("/market/pairs", listPairHandler(clientCtx)).Methods("GET")
 
-	r.HandleFunc("/market/Orders/{id}", getOrderHandler(clientCtx)).Methods("GET")
-	r.HandleFunc("/market/Orders", listOrderHandler(clientCtx)).Methods("GET")
+	r.HandleFunc("/market/orders/{id}", getOrderHandler(clientCtx)).Methods("GET")
+	r.HandleFunc("/market/orders", listOrderHandler(clientCtx)).Methods("GET")
 
 }
 
 func registerTxHandlers(clientCtx client.Context, r *mux.Router) {
 	// this line is used by starport scaffolding # 4
-	r.HandleFunc("/market/Pairs", createPairHandler(clientCtx)).Methods("POST")
-	r.HandleFunc("/market/Pairs/{id}", updatePairHandler(clientCtx)).Methods("POST")
-	r.HandleFunc("/market/Pairs/{id}", deletePairHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/market/pairs", createPairHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/market/pairs/{id}", updatePairHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/market/pairs/{id}", deletePairHandler(clientCtx)).Methods("POST")
 
-	r.HandleFunc("/market/Orders", createOrderHandler(clientCtx)).Methods("POST")
-	r.HandleFunc("/market/Orders/{id}", updateOrderHandler(clientCtx)).Methods("POST")
-	r.HandleFunc("/market/Orders/{id}", deleteOrderHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/market/orders", createOrderHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/market/orders/{id}", updateOrderHandler(clientCtx)).Methods("POST")
+	r.HandleFunc("/market/orders/{id}", deleteOrderHandler(clientCtx)).Methods("POST")
 
 }

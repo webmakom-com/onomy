@@ -12,7 +12,7 @@ import (
 
 func CmdListOrder() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-Order",
+		Use:   "list-order",
 		Short: "list all Order",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
@@ -44,7 +44,7 @@ func CmdListOrder() *cobra.Command {
 
 func CmdShowOrder() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-Order [id]",
+		Use:   "show-order [id]",
 		Short: "shows a Order",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
