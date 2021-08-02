@@ -7,6 +7,8 @@ import (
 	"github.com/tkanos/gonfig"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -78,11 +80,18 @@ func (s Request) toJson() ([]byte, error) {
 func login() {
 	request := Request{login: Login{email: config.Auth.SuperAdmin.Email, password: config.Auth.SuperAdmin.Password}}
 	token := CallSaiStorage("login", request)
+
 	_ = json.Unmarshal([]byte(token), &myToken)
 }
 
 func CallSaiStorage(method string, request Request) string {
-	configErr := gonfig.GetConf("config.json", &config)
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	configErr := gonfig.GetConf(dir + "/storage/config.json", &config)
 
 	if configErr != nil {
 		fmt.Println("Config missed!! ")
@@ -95,7 +104,7 @@ func CallSaiStorage(method string, request Request) string {
 
 	request.token = myToken.Token
 
-	return callSaiStorage("http://storage:8818/"+method, request)
+	return callSaiStorage("http://localhost:8818/"+method, request)
 }
 
 func callSaiStorage(url string, request Request) string {
@@ -103,6 +112,7 @@ func callSaiStorage(url string, request Request) string {
 	fmt.Println(string(jsonStr))
 
 	if jsonErr != nil {
+		fmt.Println(jsonErr)
 		panic(jsonErr)
 	}
 
@@ -112,6 +122,7 @@ func callSaiStorage(url string, request Request) string {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 	defer resp.Body.Close()

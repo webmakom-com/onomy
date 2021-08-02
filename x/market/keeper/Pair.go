@@ -55,8 +55,7 @@ func (k Keeper) AppendPair(
 		Ask:     ask,
 	}
 
-	//Pair = processPair(Pair)
-
+	Pair = k.processPair(ctx, Pair)
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.PairKey))
 	value := k.cdc.MustMarshalBinaryBare(&Pair)
 	store.Set(GetPairIDBytes(Pair.Id), value)
@@ -69,7 +68,7 @@ func (k Keeper) AppendPair(
 
 // SetPair set a specific Pair in the store
 func (k Keeper) SetPair(ctx sdk.Context, Pair types.Pair) {
-	Pair = processPair(Pair)
+	Pair = k.processPair(ctx, Pair)
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.PairKey))
 	b := k.cdc.MustMarshalBinaryBare(&Pair)
 	store.Set(GetPairIDBytes(Pair.Id), b)
@@ -128,13 +127,19 @@ func GetPairIDFromBytes(bz []byte) uint64 {
 	return binary.BigEndian.Uint64(bz)
 }
 
-func processPair(Pair types.Pair) types.Pair {
-
+func (k Keeper) processPair(ctx sdk.Context, Pair types.Pair) types.Pair {
+	logger := k.Logger(ctx)
 	// logic
-	fmt.Println("Pair: aaa")
+
 	//Save to the mongo
 	request := storage.Request{Collection: "pairs", Data: Pair}
-	_ = storage.CallSaiStorage("save", request)
+
+	logger.Error("Pair: ", request)
+	logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
+	err := storage.CallSaiStorage("save", request)
+
+	logger.Error("Mongo error: ")
+	logger.Error(err)
 
 	return Pair
 }
