@@ -1,0 +1,63 @@
+syntax = "proto3";
+package onomyprotocol.onomy.market;
+
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+// this line is used by starport scaffolding # 1
+import "market/Pair.proto";
+import "market/Order.proto";
+
+option go_package = "github.com/onomyprotocol/onomy/x/market/types";
+
+// Query defines the gRPC querier service.
+service Query {
+    // this line is used by starport scaffolding # 2
+	rpc Pair(QueryGetPairRequest) returns (QueryGetPairResponse) {
+		option (google.api.http).get = "/onomyprotocol/onomy/market/Pair/{id}";
+	}
+	rpc PairAll(QueryAllPairRequest) returns (QueryAllPairResponse) {
+		option (google.api.http).get = "/onomyprotocol/onomy/market/Pair";
+	}
+
+	rpc Order(QueryGetOrderRequest) returns (QueryGetOrderResponse) {
+		option (google.api.http).get = "/onomyprotocol/onomy/market/Order/{id}";
+	}
+	rpc OrderAll(QueryAllOrderRequest) returns (QueryAllOrderResponse) {
+		option (google.api.http).get = "/onomyprotocol/onomy/market/Order";
+	}
+
+}
+
+// this line is used by starport scaffolding # 3
+message QueryGetPairRequest {
+	uint64 id = 1;
+}
+
+message QueryGetPairResponse {
+	Pair Pair = 1;
+}
+
+message QueryAllPairRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllPairResponse {
+	repeated Pair Pair = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+message QueryGetOrderRequest {
+	uint64 id = 1;
+}
+
+message QueryGetOrderResponse {
+	Order Order = 1;
+}
+
+message QueryAllOrderRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllOrderResponse {
+	repeated Order Order = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package onomyprotocol.onomy.market;
+
+// this line is used by starport scaffolding # genesis/proto/import
+import "market/Pair.proto";
+import "market/Order.proto";
+
+option go_package = "github.com/onomyprotocol/onomy/x/market/types";
+
+// GenesisState defines the market module's genesis state.
+message GenesisState {
+    // this line is used by starport scaffolding # genesis/proto/state
+		repeated Pair PairList = 2; // this line is used by starport scaffolding # genesis/proto/stateField
+		repeated Order OrderList = 1; // this line is used by starport scaffolding # genesis/proto/stateField
+    // this line is used by starport scaffolding # ibc/genesis/proto
+}

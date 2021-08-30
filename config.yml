@@ -26,7 +26,7 @@ host:
   prof: ":6061"
   grpc: ":9091"
   api: ":1317"
-  dev-ui: ":12346"
+  dev-ui: ":12345"
 genesis:
   app_state:
     staking:
